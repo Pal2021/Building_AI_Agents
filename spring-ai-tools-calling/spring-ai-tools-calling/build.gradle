@@ -27,11 +27,18 @@ dependencyManagement {
 dependencies {
 	// 💡 Changed to web starter if you plan to build APIs/Rest endpoints for your LLM interactions
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// ✅ The official starter for Google GenAI (Gemini)
 	implementation 'org.springframework.ai:spring-ai-starter-model-google-genai'
-
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// MCP Client dependency — this is the key new addition
+	implementation 'org.springframework.ai:spring-ai-mcp-client-spring-boot-starter'
+	// 2. The Spring Boot starter for auto-configuration properties
+	implementation 'org.springframework.ai:spring-ai-mcp-client-spring-boot-starter'
+
 }
 
 tasks.named('test') {

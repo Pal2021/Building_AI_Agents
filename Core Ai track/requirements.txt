@@ -1,0 +1,8 @@
+python-dotenv
+ipython
+openai
+azure-identity
+scraper 
+beautifulsoup4
+playwright
+chromium

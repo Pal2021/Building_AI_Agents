@@ -1,0 +1,54 @@
+plugins {
+	id 'org.springframework.boot' version '3.4.5'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencyManagement {
+	imports {
+		// Upgraded to a 1.1.x GA release to support the unified Google GenAI starter
+		mavenBom "org.springframework.ai:spring-ai-bom:1.1.7"
+	}
+}
+
+dependencies {
+	// Spring Boot Core
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Gemini via Google GenAI (Supported in 1.1.x)
+	implementation 'org.springframework.ai:spring-ai-starter-model-google-genai'
+
+	// MCP Client
+	implementation 'org.springframework.ai:spring-ai-starter-mcp-client'
+
+//	// Database
+//	runtimeOnly 'com.mysql:mysql-connector-j'
+
+//	// Lombok
+//	compileOnly 'org.projectlombok:lombok'
+//	annotationProcessor 'org.projectlombok:lombok'
+	// ADD THIS: Required for Spring AI to maintain the SSE stream via WebClient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

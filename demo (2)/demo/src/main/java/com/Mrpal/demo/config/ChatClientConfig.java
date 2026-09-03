@@ -1,7 +1,9 @@
 package com.Mrpal.demo.config;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,9 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class ChatClientConfig {
 
     @Bean
-    public ChatClient chatClient(ChatClient.Builder chatClientBuilder) {
-        // We define the blueprint here; we DO NOT execute LLM calls here.
-        return chatClientBuilder
+    public ChatClient chatClient(@Qualifier("googleGenAiChatModel") ChatModel chatModel) {
+        return ChatClient.builder(chatModel)
                 .defaultOptions(GoogleGenAiChatOptions.builder()
                         .temperature(0.1)
                         .build())
@@ -26,5 +27,18 @@ public class ChatClientConfig {
                 .build();
     }
 
-
+    @Bean
+    public ChatClient ragChatClient(@Qualifier("googleGenAiChatModel") ChatModel chatModel) {
+        return ChatClient.builder(chatModel)
+                .defaultOptions(GoogleGenAiChatOptions.builder()
+                        .temperature(0.1)
+                        .build())
+                .defaultSystem("""
+                        You are a helpful assistant.
+                        Answer the user's question directly using your knowledge.
+                        Use any provided context as additional supporting information.
+                        Always give a complete and helpful answer.
+                        """)
+                .build();
+    }
 }
