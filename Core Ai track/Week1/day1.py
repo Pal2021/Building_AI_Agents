@@ -3,9 +3,8 @@ from bs4 import BeautifulSoup
 
 from dotenv import load_dotenv
 from IPython.display import Markdown, display
-from openai import OpenAI
-from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
+from call_llm import callingLLM
 
 # ============================================================
 # 1. SCRAPER
@@ -51,24 +50,10 @@ def fetch_website_contents(url):
     return text
 
 
-# ============================================================
-# 2. AZURE OPENAI SETUP
-# ============================================================
+deployment_name = "gpt-5.6-sol"
 
-endpoint = "https://newaiprashant.services.ai.azure.com/openai/v1"
-deployment_name = "gpt-5"
-
-token_provider = get_bearer_token_provider(
-    DefaultAzureCredential(),
-    "https://ai.azure.com/.default"
-)
-
-client = OpenAI(
-    base_url=endpoint,
-    api_key=token_provider
-)
-
-response = client.chat.completions.create(messages=[{"role":"user","content":"Tell me a fun fact"}],model=deployment_name)
+client=callingLLM()
+response = client.chat.completions.create(model= deployment_name,messages=[{"role":"user","content":"Tell me a fun fact"}])
 print(response.choices[0].message.content)
 
 # ============================================================
@@ -112,5 +97,5 @@ response = client.responses.create(
 # 5. PRINT AI RESPONSE
 # ============================================================
 
-# print("\n--- AI RESPONSE ---")
-# print(response.output_text)
+print("\n--- AI RESPONSE ---")
+print(response.output_text)

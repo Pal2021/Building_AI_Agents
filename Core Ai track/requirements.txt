@@ -6,3 +6,4 @@ scraper
 beautifulsoup4
 playwright
 chromium
+tiktoken

@@ -1,0 +1,7 @@
+ddgs
+tavily-python
+exa-py
+python-dotenv
+openai
+azure-identity
+requests
